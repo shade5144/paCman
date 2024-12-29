@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "gamefuncs.h": "c",
+        "stdio.h": "c",
+        "gamedefs.h": "c",
+        "ghost.h": "c",
+        "pac.h": "c"
+    }
+}
