@@ -1,4 +1,4 @@
-// #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <raylib.h>
 #include <raymath.h>
@@ -345,17 +345,20 @@ void moveToTarget(Ghost *ghost, char maze[MAZE_HEIGHT][MAZE_WIDTH], Vector2 ghos
 
             if (ghost->prev_ghost_state == scatter || ghost->prev_ghost_state == chase)
             {
-                if (ghost->ghost_state != ghost->prev_ghost_state && ghost->prev_tile != -1) // Flip ghost's movement direction when it changes states
+                if (ghost->prev_ghost_state != frightened) // Change movement direction only once when frightened
                 {
-
-                    distance_array[ghost->prev_tile] = 0;
-                    for (int i = 0; i < 4; i++)
+                    if (ghost->ghost_state != ghost->prev_ghost_state && ghost->prev_tile != -1) // Flip ghost's movement direction when it changes states
                     {
-                        if (i != ghost->prev_tile)
-                            distance_array[i] = DISTANCE_INFINITY;
-                    }
 
-                    ghost->prev_ghost_state = ghost->ghost_state;
+                        distance_array[ghost->prev_tile] = 0;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (i != ghost->prev_tile)
+                                distance_array[i] = DISTANCE_INFINITY;
+                        }
+
+                        ghost->prev_ghost_state = ghost->ghost_state;
+                    }
                 }
             }
 

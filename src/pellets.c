@@ -13,7 +13,7 @@ void pelletCollision(Player *pacman, char maze[MAZE_HEIGHT][MAZE_WIDTH], int inc
     }
 }
 
-void powPel(Player *pacman, Ghost_State *overall_ghosts_state, char maze[MAZE_HEIGHT][MAZE_WIDTH], int increment)
+void powPel(Player *pacman, int *is_frightened, char maze[MAZE_HEIGHT][MAZE_WIDTH], int increment)
 {
 
     if (maze[(int)(pacman->pacman_rec.y / TILE_SIZE)][(int)(pacman->pacman_rec.x / TILE_SIZE)] == 'O')
@@ -21,7 +21,7 @@ void powPel(Player *pacman, Ghost_State *overall_ghosts_state, char maze[MAZE_HE
 
         pacman->score += increment;
         maze[(int)(pacman->pacman_rec.y / TILE_SIZE)][(int)(pacman->pacman_rec.x / TILE_SIZE)] = ' ';
-        *overall_ghosts_state = frightened;
+        *is_frightened = 1;
     }
 }
 

@@ -1,37 +1,35 @@
 
-PACMAN-PROJECT
+## PACMAN-PROJECT
 
-Description of source files:
+Implementation of the pacman game(by Toru Iwatani and co) in C with raylib used for rendering. This isn't meant to be a faithful recreation of the original, rather it is just functional, to understand the workflow in creating a non-trivial game.
 
-    gamefuncs.h contains all the declarations of the functions in each file 
+### Description of source files:
 
-    general.c contains functions common to all entities/the game itself
+`gamefuncs.h` contains all the declarations of the functions in each file 
 
-    ghosts.c contain all ghost functions
+`general.c` contains functions common to all entities/the game itself
 
-    pac.c contains all functions pertaining to the player
+`ghosts.c` contain all ghost functions
 
-    pellets.c contains all pellet functions
+`pac.c` contains all functions pertaining to the player
 
-    main.c contains the main game loop
+`pellets.c` contains all pellet functions
 
-NOTE: The resources folder contains all the sprites, and highscores.txt stores the highscores.
+`main.c` contains the main game loop
 
-Instructions for compilation:
+**NOTE**: The resources folder contains all the sprites, and highscores.txt stores the highscores.
 
-    The raylib.h library must first be installed on the computer, after
-     
-    which compiling main.c (with the flag "-lraylib" at the end of the 
-        
-    gcc command to link raylib with main.c) is done as usual
-        
-    (gcc main.c -o main -lraylib).
+### Tools and Libraries used
 
-Eve W 9999
-Bob L 8901
-Hank L 8765
-Diana L 7823
-Grace W 5678
-Charlie W 4567
-Ivy W 3456
+* gcc
+* raylib
+* make
+
+### Instructions for compilation:
+
+Refer to the Makefile
+
+### Credits
+
+* https://github.com/raysan5/raylib
 

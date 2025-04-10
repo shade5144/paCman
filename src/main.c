@@ -11,6 +11,10 @@
 #include "ghost.h"
 #include "pellets.h"
 
+// TODO:
+// - Check state logic for ghosts
+// - Figure out moving into walls glitch?
+
 int floatCompare(float f1, float f2)
 {
 
@@ -192,11 +196,10 @@ int main()
 
     int state_timer = 0;
     int frightened_timer = 0;
-    int is_frightened = 0;
 
     while (!WindowShouldClose())
     {
-        printf("%d-->%d AND %d\n", state_timer, overall_ghosts_state, frightened_timer);
+        // printf("%d-->%d AND %d\n", state_timer, overall_ghosts_state, frightened_timer);
 
         switch (game_state)
         {
@@ -352,16 +355,22 @@ int main()
                 game_state = WIN;
             }
 
-            if (overall_ghosts_state == frightened)
+            if (is_frightened || frightened_timer > 0)
             {
 
-                if (prev_ghosts_state != frightened)
+                if (is_frightened) // is_frightened is set to 0 after setting the state of ghosts to frightened
                 {
                     frightened_start = current_time;
+                    frightened_timer = 1;
                 }
 
                 time_t current_frightened = time(NULL);
-                frightened_timer = current_frightened - frightened_start;
+
+                if (current_frightened - frightened_start) // if one second has elapsed
+                {
+                    frightened_timer++;
+                    frightened_start = current_frightened;
+                }
 
                 if (frightened_timer > FRIGHTENED_TIME)
                 {
@@ -370,17 +379,14 @@ int main()
                 }
             }
 
-            if (overall_ghosts_state != frightened)
+            if (state_timer >= 0 && state_timer < SCATTER_TIME)
             {
-                if (state_timer >= 0 && state_timer < SCATTER_TIME)
-                {
-                    overall_ghosts_state = scatter;
-                }
+                overall_ghosts_state = scatter;
+            }
 
-                if (state_timer >= SCATTER_TIME && state_timer < CHASE_TIME)
-                {
-                    overall_ghosts_state = chase;
-                }
+            if (state_timer >= SCATTER_TIME && state_timer < CHASE_TIME)
+            {
+                overall_ghosts_state = chase;
             }
 
             if (state_timer >= CHASE_TIME)
@@ -389,11 +395,23 @@ int main()
                 start_time = current_time;
             }
 
+            if (is_frightened)
+            {
+                // printf("HERE\n");
+                for (int i = 0; i < 4; i++)
+                {
+                    ghosts[i].ghost_state = frightened;
+                }
+
+                is_frightened = 0;
+            }
+
             for (int i = 0; i < 4; i++)
             {
 
                 if (ghosts[i].ghost_state != frightened)
                 {
+
                     if (ghosts[i].ghost_state != release_ghosthouse && ghosts[i].ghost_state != back_to_ghosthouse)
                     {
                         ghosts[i].ghost_state = overall_ghosts_state;
@@ -401,7 +419,7 @@ int main()
                 }
                 else
                 {
-                    if (ghosts[i].prev_ghost_state == release_ghosthouse)
+                    if (frightened_timer == 0)
                     {
                         ghosts[i].ghost_state = overall_ghosts_state;
                     }
@@ -423,12 +441,12 @@ int main()
             for (int i = 0; i < 4; i++)
             {
                 if (prev_ghosts_state != overall_ghosts_state)
-                    if (ghosts[i].ghost_state != back_to_ghosthouse)
+                    if (ghosts[i].ghost_state != back_to_ghosthouse && ghosts[i].prev_ghost_state != frightened)
                         ghosts[i].prev_ghost_state = prev_ghosts_state;
             }
 
             prev_ghosts_state = overall_ghosts_state;
-            powPel(&pacman, &overall_ghosts_state, maze, 200);
+            powPel(&pacman, &is_frightened, maze, 200);
         }
 
         BeginDrawing();
@@ -483,7 +501,8 @@ int main()
                 filep = fopen("highscores.txt", "r");
             }
 
-            char buf[10][50];
+            static char buf[10][50];
+
             static int ind = 0; // Counts num of elements in file, in the first iteration
             int i = 0;
 

@@ -1,4 +1,4 @@
-CC = gcc -g -Iinclude
+CC = gcc -Iinclude
 
 all: PACMAN GHOST PELLETS MAIN
 

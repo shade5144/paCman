@@ -127,7 +127,7 @@ void pacMove(Player *pacman, char maze[MAZE_HEIGHT][MAZE_WIDTH])
     Vector2 error_term_vec;
     Vector2 secondary_error_vec; // Sphagetti to avoid redundancy and improve readability
 
-    if (IsKeyPressed(KEY_W) || pacman->buffer_direction == move_up)
+    if (IsKeyPressed(KEY_UP) || pacman->buffer_direction == move_up)
     {
         pacman->buffer_direction = move_up;
 
@@ -138,7 +138,7 @@ void pacMove(Player *pacman, char maze[MAZE_HEIGHT][MAZE_WIDTH])
         secondary_error_vec.x = error_term;
     }
 
-    if (IsKeyPressed(KEY_A) || pacman->buffer_direction == move_left)
+    if (IsKeyPressed(KEY_LEFT) || pacman->buffer_direction == move_left)
     {
         pacman->buffer_direction = move_left;
 
@@ -149,7 +149,7 @@ void pacMove(Player *pacman, char maze[MAZE_HEIGHT][MAZE_WIDTH])
         secondary_error_vec.x = -TILE_SIZE;
     }
 
-    if (IsKeyPressed(KEY_S) || pacman->buffer_direction == move_down)
+    if (IsKeyPressed(KEY_DOWN) || pacman->buffer_direction == move_down)
     {
         pacman->buffer_direction = move_down;
 
@@ -160,7 +160,7 @@ void pacMove(Player *pacman, char maze[MAZE_HEIGHT][MAZE_WIDTH])
         secondary_error_vec.x = error_term;
     }
 
-    if (IsKeyPressed(KEY_D) || pacman->buffer_direction == move_right)
+    if (IsKeyPressed(KEY_RIGHT) || pacman->buffer_direction == move_right)
     {
         pacman->buffer_direction = move_right;
 
